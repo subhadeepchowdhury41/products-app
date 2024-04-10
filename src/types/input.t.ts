@@ -1,6 +1,6 @@
-import {TextInputProps} from 'react-native';
+import {TextInputProps} from 'react-native-paper';
 
 export interface InputProps extends TextInputProps {
   label: string;
-  error?: string | number | null;
+  errorText?: string | null;
 }

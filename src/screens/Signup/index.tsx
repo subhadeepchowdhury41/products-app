@@ -1,13 +1,13 @@
 import {Text, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
-import OutlinedInput from '../../components/ui/OutlinedInput';
-import FilledButton from '../../components/ui/FilledButton';
-import OutlinedButton from '../../components/ui/OutlinedButton';
 import {globalStyles} from '../../utils/consts';
 import {useNavigation} from '@react-navigation/native';
 import {useDispatch} from 'react-redux';
 import {signUpRequest} from '../../containers/Auth/actions';
 import Toast from 'react-native-toast-message';
+import OutlinedInput from '../../components/ui/OutlinedInput';
+import SolidButton from '../../components/ui/SolidButton';
+import OutlinedButton from '../../components/ui/OutlinedButton';
 
 const SignupScreen = () => {
   const dispatch = useDispatch();
@@ -77,22 +77,25 @@ const SignupScreen = () => {
         label="Name"
         value={name}
         onChangeText={setName}
-        error={error.name}
+        error={Boolean(error.name)}
+        errorText={error.name}
       />
       <OutlinedInput
         label="Email"
         onChangeText={setEmail}
-        error={error.email}
+        error={Boolean(error.email)}
         autoCapitalize="none"
         keyboardType="email-address"
+        errorText={error.email}
       />
       <OutlinedInput
         label="Password"
         secureTextEntry
         onChangeText={setPassword}
-        error={error.password}
+        error={Boolean(error.password)}
+        errorText={error.password}
       />
-      <FilledButton label="Signup" onPress={handleSignup} />
+      <SolidButton label="Signup" onPress={handleSignup} />
       <OutlinedButton label="Login" onPress={handleLogin} />
     </View>
   );

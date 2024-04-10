@@ -3,12 +3,11 @@
 import {Image, ScrollView, View} from 'react-native';
 import React, {useEffect} from 'react';
 import {globalStyles} from '../../../utils/consts';
-import OutlinedInput from '../../../components/ui/OutlinedInput';
-import FileUploader from '../../../components/ui/FieUploadButton';
 import {Card} from 'react-native-paper';
 import Toast from 'react-native-toast-message';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import Spacer from '../../../components/ui/Spacer';
+import OutlinedInput from '../../../components/ui/OutlinedInput';
 
 const AddScreen = () => {
   const [selectedFile, setSelectedFile] = React.useState<string | null>(null);
@@ -63,19 +62,22 @@ const AddScreen = () => {
           label="Name"
           value={name}
           onChangeText={setName}
-          error={error.name}
+          error={Boolean(error.name)}
+          errorText={error.name}
         />
         <View style={{gap: 10}}>
           <OutlinedInput
             label="Title"
             value={title}
             onChangeText={setTitle}
-            error={error.description}
+            error={Boolean(error.title)}
+            errorText={error.description}
           />
 
           <OutlinedInput
             label="Description"
-            error={error.description}
+            error={Boolean()}
+            errorText={error.description}
             value={description}
             onChangeText={setDescription}
           />
@@ -83,7 +85,8 @@ const AddScreen = () => {
             keyboardType="numeric"
             label="Price"
             value={price}
-            error={error.price}
+            error={Boolean(error.price)}
+            errorText={error.price}
             onChangeText={setPrice}
           />
           <Spacer />
