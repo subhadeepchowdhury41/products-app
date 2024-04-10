@@ -8,8 +8,14 @@ import Toast from 'react-native-toast-message';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import Spacer from '../../../components/ui/Spacer';
 import OutlinedInput from '../../../components/ui/OutlinedInput';
+import FileUploader from '../../../components/ui/FileUploadButton';
+import {useDispatch, useSelector} from 'react-redux';
+import {ADD_PRODUCT_REQUEST} from '../../../containers/Products/types';
+import SolidButton from '../../../components/ui/SolidButton';
 
 const AddScreen = () => {
+  const dispatch = useDispatch();
+  const {user, userId} = useSelector((state: any) => state.auth);
   const [selectedFile, setSelectedFile] = React.useState<string | null>(null);
   const [title, setTitle] = React.useState('');
   const [name, setName] = React.useState('');
@@ -22,6 +28,26 @@ const AddScreen = () => {
     price?: string | null;
   }>({});
 
+  const addProduct = async () => {
+    if (error.name || error.title || error.price) {
+      Toast.show({type: 'error', text1: 'Please fill all required fields'});
+      return;
+    }
+    dispatch({
+      type: ADD_PRODUCT_REQUEST,
+      payload: {
+        name,
+        title,
+        description,
+        price: parseInt(price, 10),
+        image: selectedFile,
+        uploader: {
+          name: user.name,
+          id: userId,
+        },
+      },
+    });
+  };
   useEffect(() => {
     console.log(error);
 
@@ -58,14 +84,16 @@ const AddScreen = () => {
           gap: 10,
         }}>
         <Spacer />
-        <OutlinedInput
-          label="Name"
-          value={name}
-          onChangeText={setName}
-          error={Boolean(error.name)}
-          errorText={error.name}
-        />
+        <Spacer />
+
         <View style={{gap: 10}}>
+          <OutlinedInput
+            label="Name"
+            value={name}
+            onChangeText={setName}
+            error={Boolean(error.name)}
+            errorText={error.name}
+          />
           <OutlinedInput
             label="Title"
             value={title}
@@ -132,11 +160,12 @@ const AddScreen = () => {
             )}
           </View>
           <FileUploader
-            path="productImages"
-            onUpload={(url: string) => {
+            uploadRef="productImages"
+            onFileUpload={(url: string) => {
               setSelectedFile(url);
             }}
           />
+          <SolidButton label="Add Product" onPress={addProduct} />
         </View>
       </ScrollView>
     </View>

@@ -10,25 +10,15 @@ export const DELETE_PRODUCT_REQUEST = '[Products] DELETE_PRODUCT_REQUEST';
 export const DELETE_PRODUCT_SUCCESS = '[Products] DELETE_PRODUCT_SUCCESS';
 export const DELETE_PRODUCT_FAILURE = '[Products] DELETE_PRODUCT_FAILURE';
 
-export interface AddProductDto {
+export interface Product {
+  id: string;
   title: string;
   price: number;
   name: string;
   image: string;
-  rating: number;
-  discount: number;
-}
-
-export interface UpdateProductDto {
-  id: string;
-  title?: string;
-  price?: number;
-  name?: string;
-  image?: string;
-  rating?: number;
-  discount?: number;
-}
-
-export interface DeleteProductDto {
-  id: string;
+  description: string;
+  uploader: {
+    name: string;
+    id: string;
+  };
 }

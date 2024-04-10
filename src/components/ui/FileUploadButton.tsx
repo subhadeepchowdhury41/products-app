@@ -3,8 +3,8 @@ import React from 'react';
 import * as ImagePicker from 'react-native-image-picker';
 import Toast from 'react-native-toast-message';
 import {useState} from 'react';
-import SolidButton from './SolidButton';
 import storage from '@react-native-firebase/storage';
+import OutlinedButton from './OutlinedButton';
 
 export interface FileUploaderProps {
   uploadRef: string;
@@ -56,9 +56,9 @@ const FileUploader = (props: FileUploaderProps) => {
 
   return (
     <View>
-      <SolidButton
+      <OutlinedButton
         loading={loading}
-        label="Upload a Photo"
+        label={loading ? 'Uploading' : 'Upload a Photo'}
         onPress={selectImage}
       />
     </View>
