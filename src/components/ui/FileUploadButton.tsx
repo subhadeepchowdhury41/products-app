@@ -40,7 +40,9 @@ const FileUploader = (props: FileUploaderProps) => {
   };
 
   const uploadFile = (file: any) => {
-    const task = storage().ref(props.uploadRef).putFile(file.uri);
+    const task = storage()
+      .ref(props.uploadRef + '/' + file.filename)
+      .putFile(file.uri);
     task.on('state_changed', snapshot => {
       const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
       console.log(`Upload is ${progress}% done`);

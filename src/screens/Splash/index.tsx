@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 /* eslint-disable react-hooks/exhaustive-deps */
 import {Text, View} from 'react-native';
 import React, {useEffect} from 'react';
@@ -13,8 +14,8 @@ const SplashScreen = () => {
     }, 1000);
   }, []);
   return (
-    <View style={globalStyles.container}>
-      <Text style={globalStyles.title}>Splash Screen</Text>
+    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+      <Text style={globalStyles.title}>Productz</Text>
     </View>
   );
 };

@@ -6,13 +6,16 @@ import LoginScreen from '../screens/Login';
 import SignupScreen from '../screens/Signup';
 import {useSelector} from 'react-redux';
 import SplashScreen from '../screens/Splash';
+import ProductDetails from '../screens/Product';
+import EditProduct from '../screens/Product/Edit';
+import {setTopLevelNavigator} from '../services/navigation';
 
 const Stack = createStackNavigator();
 
 const AppNavigator = () => {
   const {userId, splash} = useSelector((state: any) => state.auth);
   return (
-    <NavigationContainer>
+    <NavigationContainer ref={ref => setTopLevelNavigator(ref)}>
       <Stack.Navigator>
         {splash && (
           <>
@@ -33,6 +36,20 @@ const AppNavigator = () => {
                 headerShown: false,
               }}
               component={HomeScreen}
+            />
+            <Stack.Screen
+              name="ProductDetails"
+              options={{
+                headerShown: false,
+              }}
+              component={ProductDetails}
+            />
+            <Stack.Screen
+              name="ProductEdit"
+              options={{
+                headerShown: false,
+              }}
+              component={EditProduct}
             />
           </>
         ) : (

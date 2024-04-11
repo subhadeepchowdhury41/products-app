@@ -18,10 +18,14 @@ import {ApiService} from '../../services';
 function* restoreAuth() {
   try {
     const user = auth().currentUser;
+    if (!user) {
+      yield put({type: SIGN_IN_FAILURE, payload: 'INIT'});
+      return;
+    }
     const userData: any = yield call(ApiService.user.get, user?.uid);
     yield put({
       type: SIGN_IN_SUCCESS,
-      payload: {userid: user?.uid, ...userData},
+      payload: {userId: user?.uid, ...userData},
     });
   } catch (error) {
     yield put({type: SIGN_IN_FAILURE, payload: error});

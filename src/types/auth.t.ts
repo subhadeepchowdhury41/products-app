@@ -5,4 +5,5 @@ export interface AuthState {
   user: any;
   userId: string | null;
   error: FirebaseAuthTypes.NativeFirebaseAuthError | null;
+  loading?: boolean;
 }

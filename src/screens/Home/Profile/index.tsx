@@ -2,12 +2,17 @@
 import {TouchableOpacity, View, Image} from 'react-native';
 import React from 'react';
 import {ScrollView} from 'react-native-gesture-handler';
-import {Avatar, Text} from 'react-native-paper';
-import {useSelector} from 'react-redux';
+import {Avatar, Button, Text} from 'react-native-paper';
+import {useDispatch, useSelector} from 'react-redux';
 import {globalStyles} from '../../../utils/consts';
+import {logoutRequest} from '../../../containers/Auth/actions';
 
 const ProfileScreen = () => {
-  const {user} = useSelector((state: any) => state.auth);
+  const dispatch = useDispatch();
+  const onLogOut = () => {
+    dispatch(logoutRequest());
+  };
+  const {user, loading} = useSelector((state: any) => state.auth);
   return (
     <View style={{flex: 1}}>
       <View
@@ -95,6 +100,34 @@ const ProfileScreen = () => {
               Email
             </Text>
             <Text>{user.email}</Text>
+          </View>
+          <View
+            style={{width: '100%', height: 1, backgroundColor: 'lightgray'}}
+          />
+          <View
+            style={{
+              width: '100%',
+              display: 'flex',
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+            }}>
+            <Button
+              onPress={onLogOut}
+              loading={loading}
+              style={{
+                width: '100%',
+                display: 'flex',
+                flexDirection: 'row',
+                alignItems: 'center',
+                paddingHorizontal: 10,
+                paddingVertical: 10,
+                justifyContent: 'center',
+              }}
+              mode="text"
+              textColor="red">
+              Logout
+            </Button>
           </View>
         </View>
       </ScrollView>

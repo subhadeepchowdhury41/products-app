@@ -1,15 +1,22 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable react/no-unstable-nested-components */
 import {Image, StyleSheet, View} from 'react-native';
-import React from 'react';
+import React, {useEffect} from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import BrowseScreen from './Browse';
 import AddScreen from './Add';
 import ProfileScreen from './Profile';
+import {watchProductsCollection} from '../../containers/Products/actions';
+import {useDispatch, useSelector} from 'react-redux';
 
 const Tab = createBottomTabNavigator();
 
 const HomeScreen = () => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(watchProductsCollection());
+  }, []);
   return (
     <View style={{flex: 1}}>
       <Tab.Navigator
@@ -27,7 +34,13 @@ const HomeScreen = () => {
         }}>
         <Tab.Screen
           options={{
-            headerShown: false,
+            headerTitle: 'Home',
+            headerShown: true,
+            headerShadowVisible: true,
+            headerTitleStyle: {
+              fontSize: 20,
+              fontWeight: 'bold',
+            },
             tabBarIcon: ({focused}) => (
               <Image
                 style={styles.icon}
@@ -45,7 +58,13 @@ const HomeScreen = () => {
         />
         <Tab.Screen
           options={{
-            headerShown: false,
+            headerShown: true,
+            headerTitle: 'Add product',
+            headerShadowVisible: true,
+            headerTitleStyle: {
+              fontSize: 20,
+              fontWeight: '800',
+            },
             tabBarIcon: ({focused}) => (
               <Image
                 source={
@@ -63,7 +82,12 @@ const HomeScreen = () => {
         />
         <Tab.Screen
           options={{
-            headerShown: false,
+            headerShown: true,
+            headerShadowVisible: true,
+            headerTitleStyle: {
+              fontSize: 20,
+              fontWeight: '800',
+            },
             tabBarIcon: ({focused}) => (
               <Image
                 source={

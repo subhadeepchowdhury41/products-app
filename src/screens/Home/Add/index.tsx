@@ -1,9 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-native/no-inline-styles */
-import {Image, ScrollView, View} from 'react-native';
+import {Image, ScrollView, Text, View} from 'react-native';
 import React, {useEffect} from 'react';
 import {globalStyles} from '../../../utils/consts';
-import {Card} from 'react-native-paper';
+import {Card, TextInput} from 'react-native-paper';
 import Toast from 'react-native-toast-message';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import Spacer from '../../../components/ui/Spacer';
@@ -15,6 +15,8 @@ import SolidButton from '../../../components/ui/SolidButton';
 
 const AddScreen = () => {
   const dispatch = useDispatch();
+  const [mounted, setMounted] = React.useState(false);
+  const {loading} = useSelector((state: any) => state.product);
   const {user, userId} = useSelector((state: any) => state.auth);
   const [selectedFile, setSelectedFile] = React.useState<string | null>(null);
   const [title, setTitle] = React.useState('');
@@ -49,8 +51,10 @@ const AddScreen = () => {
     });
   };
   useEffect(() => {
-    console.log(error);
-
+    if (!mounted) {
+      setMounted(true);
+      return;
+    }
     if (name === null || name === '' || name.length < 3) {
       setError(prev => ({...prev, name: 'Valid name is required'}));
       return;
@@ -99,7 +103,7 @@ const AddScreen = () => {
             value={title}
             onChangeText={setTitle}
             error={Boolean(error.title)}
-            errorText={error.description}
+            errorText={error.title}
           />
 
           <OutlinedInput
@@ -112,6 +116,12 @@ const AddScreen = () => {
           <OutlinedInput
             keyboardType="numeric"
             label="Price"
+            left={
+              <TextInput.Icon
+                // eslint-disable-next-line react/no-unstable-nested-components
+                icon={() => <Text style={{fontSize: 23}}>₹</Text>}
+              />
+            }
             value={price}
             error={Boolean(error.price)}
             errorText={error.price}
@@ -165,8 +175,15 @@ const AddScreen = () => {
               setSelectedFile(url);
             }}
           />
-          <SolidButton label="Add Product" onPress={addProduct} />
+          <SolidButton
+            loading={loading}
+            label="Add Product"
+            onPress={addProduct}
+          />
         </View>
+        <Spacer />
+        <Spacer />
+        <Spacer />
       </ScrollView>
     </View>
   );

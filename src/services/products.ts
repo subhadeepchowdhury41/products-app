@@ -11,7 +11,7 @@ export const getProducts = async () => {
 
 export const addProduct = async (product: any) => {
   try {
-    await firestore().collection('products').add(product);
+    return await firestore().collection('products').add(product);
   } catch (e) {
     console.log(e);
   }

@@ -6,12 +6,14 @@ import {View} from 'react-native';
 const OutlinedInput = (props: InputProps) => {
   return (
     <View>
-      <TextInput {...props} mode="outlined" style={{}} />
-      <HelperText
-        type="error"
-        visible={props.errorText !== null || props.errorText !== undefined}>
-        {props.errorText}
-      </HelperText>
+      <TextInput {...props} mode="outlined" />
+      {props.error && (
+        <HelperText
+          type="error"
+          visible={props.errorText !== null || props.errorText !== undefined}>
+          {props.errorText}
+        </HelperText>
+      )}
     </View>
   );
 };

@@ -2,7 +2,7 @@ import {Text, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {globalStyles} from '../../utils/consts';
 import {useNavigation} from '@react-navigation/native';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {signUpRequest} from '../../containers/Auth/actions';
 import Toast from 'react-native-toast-message';
 import OutlinedInput from '../../components/ui/OutlinedInput';
@@ -10,6 +10,8 @@ import SolidButton from '../../components/ui/SolidButton';
 import OutlinedButton from '../../components/ui/OutlinedButton';
 
 const SignupScreen = () => {
+  const [mounted, setMounted] = useState(false);
+  const {loading} = useSelector((state: any) => state.auth);
   const dispatch = useDispatch();
   const [error, setError] = useState<{
     name?: string | null;
@@ -21,6 +23,10 @@ const SignupScreen = () => {
   const [password, setPassword] = useState('');
 
   useEffect(() => {
+    if (!mounted) {
+      setMounted(true);
+      return;
+    }
     if (name === '') {
       setError(prev => ({...prev, name: 'Please enter your name'}));
       return;
@@ -95,7 +101,7 @@ const SignupScreen = () => {
         error={Boolean(error.password)}
         errorText={error.password}
       />
-      <SolidButton label="Signup" onPress={handleSignup} />
+      <SolidButton loading={loading} label="Signup" onPress={handleSignup} />
       <OutlinedButton label="Login" onPress={handleLogin} />
     </View>
   );

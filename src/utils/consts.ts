@@ -1,13 +1,19 @@
 import {StyleSheet} from 'react-native';
 
+export const buttonStyles = {
+  justifyContent: 'center',
+  height: 46,
+  borderRadius: 9,
+};
+
 export const globalStyles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'stretch',
     gap: 10,
     backgroundColor: 'whitesmoke',
-    paddingHorizontal: 20,
+    paddingHorizontal: 10,
   },
   title: {
     fontSize: 45,

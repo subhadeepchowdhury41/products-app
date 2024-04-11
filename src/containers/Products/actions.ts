@@ -8,7 +8,17 @@ import {
   UPDATE_PRODUCT_FAILURE,
   UPDATE_PRODUCT_REQUEST,
   UPDATE_PRODUCT_SUCCESS,
+  WATCH_PRODUCTS_COLLECTION,
 } from './types';
+
+export const watchProductsCollection = () => ({
+  type: WATCH_PRODUCTS_COLLECTION,
+});
+
+export const setCollectionData = (data: any) => ({
+  type: 'SET_COLLECTION_DATA',
+  payload: data,
+});
 
 export const addProductRequest = (data: any) => ({
   type: ADD_PRODUCT_REQUEST,

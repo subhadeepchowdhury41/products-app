@@ -1,3 +1,4 @@
+import Toast from 'react-native-toast-message';
 import {IAction} from '../../interface/store';
 import {
   ADD_PRODUCT_FAILURE,
@@ -6,10 +7,12 @@ import {
   DELETE_PRODUCT_FAILURE,
   DELETE_PRODUCT_REQUEST,
   DELETE_PRODUCT_SUCCESS,
+  SET_COLLECTION_DATA,
   UPDATE_PRODUCT_FAILURE,
   UPDATE_PRODUCT_REQUEST,
   UPDATE_PRODUCT_SUCCESS,
 } from './types';
+import {navigate} from '../../services/navigation';
 
 interface Product {
   id: string;
@@ -36,41 +39,34 @@ const productReducer = (
   action: IAction,
 ) => {
   switch (action.type) {
+    case SET_COLLECTION_DATA:
+      console.log('action.payload', action.payload);
+      return {...state, products: action.payload};
     case ADD_PRODUCT_REQUEST:
     case UPDATE_PRODUCT_REQUEST:
     case DELETE_PRODUCT_REQUEST:
       return {...state, loading: true};
     case ADD_PRODUCT_SUCCESS:
+    case UPDATE_PRODUCT_SUCCESS:
+    case DELETE_PRODUCT_SUCCESS:
+      Toast.show({
+        type: 'success',
+        text1: 'Success',
+        text2: 'Product added successfully',
+      });
+      navigate('Browse');
       return {
         ...state,
-        products: [...state.products, action.payload],
         loading: false,
       };
     case ADD_PRODUCT_FAILURE:
-      return {...state, loading: false};
-    case UPDATE_PRODUCT_SUCCESS:
-      return {
-        ...state,
-        error: null,
-        products: state.products.map(product => {
-          if (product.id !== action.payload.id) {
-            return product;
-          }
-          return {...product, ...action.payload};
-        }),
-        loading: false,
-      };
-    case UPDATE_PRODUCT_FAILURE:
-      return {...state, laoding: false, error: action.payload};
-    case DELETE_PRODUCT_SUCCESS:
-      return {
-        ...state,
-        products: state.products.filter(
-          product => product.id !== action.payload.id,
-        ),
-        loading: false,
-      };
     case DELETE_PRODUCT_FAILURE:
+    case UPDATE_PRODUCT_FAILURE:
+      Toast.show({
+        type: 'error',
+        text1: 'Error',
+        text2: action.payload,
+      });
       return {...state, loading: false, error: action.payload};
     default:
       return state;
